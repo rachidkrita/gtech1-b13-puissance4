@@ -3,22 +3,22 @@
 
 int main ()
 {
-  int nombrechoisi = 0;
-  printf ("Bienvenue dans Puissance 4!\n") && printf ("Veuillez choisir votre signe.\n");
+  int chosennumber = 0;
+  printf ("Welcome in Puissance 4!\n") && printf ("Please choose your sign.\n");
 
   do
  
   {
     char token [] = "ox";
-    scanf("%d",&nombrechoisi);
+    scanf("%d",&chosennumber);
 
-    if (nombrechoisi == 1)
-      printf("Vous êtes joueur 1 : votre signe est o!\n");
-    else if (nombrechoisi == 2)
-      printf("Vous êtes joueur 2 : votre signe est x!\n");
+    if (chosennumber == 1)
+      printf("You are player 1 : Your sign is o!\n");
+    else if (chosennumber == 2)
+      printf("You are player 2 : Your sign is x!\n");
     else
-      printf("Veuillez choisir entre 1 et 2.\n");
-  } while (nombrechoisi != 1&&2);
+      printf("Please choose a number between 1 and 2.\n");
+  } while (chosennumber != 1&&2);
 
   return 0;
     }
