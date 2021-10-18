@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+char token[] = "ox";
+int chosennumber = 0;
+
+int main ()
+{
+  printf ("Welcome in Puissance 4!\n") && printf ("Please choose your sign.\n");
+
+    do
+
+      {
+	scanf("%d",&chosennumber);
+
+	if (chosennumber == 1)
+	  printf("You are player 1 : Your sign is o!\n");
+	else if (chosennumber == 2)
+	  printf("You are player 2 : Your sign is x!\n");
+	else
+	  printf("Please choose a number between 1 and 2.\n");
+      } while (chosennumber != 1&&2);
+
+    return 0;
+}
