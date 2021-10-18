@@ -25,15 +25,15 @@ int choice;
 char player;
 int choose(void){
   printf("Donnez un chiffre correspondant à une colonne");
-  scanf("choice");
-  if choise != int && choise <= 7{
+  scanf("%d", &choice);
+  if (choice != int && choice > 7 && choice < 1){
       printf("Veuillez rentrer un chiffre entier compris entre 1 et 7");
-    }
-  {
-  else printf(p1 || p2, game[choice]}
+      else
+	printf(p1 || p2, game[choice][NBC]));}
 
- while li = p1 || p2{
-   do li = (l=6; l--)}
- NBL = p1 || p2
-
+  while (li = p1 || p2){
+    do li = (l=6; l--)
+	 }
+  NBL = p1 || p2;
+}
 	      
