@@ -1,7 +1,0 @@
-#include <stdlib.h>
-#include <stdio.h>
-
-char token1;
-token1=o
-char token2;
-token2=x
