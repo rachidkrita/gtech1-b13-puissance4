@@ -25,10 +25,14 @@ int init(void){
 }
 
 int Game(void) {
-  while OnOff != 1 {
+  int OnOff = 0;
+  int Victory = 0;
+  int AccountRound = 0;
+  
+  while (OnOff != 1) {
+    
+    while (Victory != 1) || (AccountRound < 42) {
       
-      while Victory != 1 || AccountRound < 42 {
-      
-      choice();
+    choice();
 	}
     }
