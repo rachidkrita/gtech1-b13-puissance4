@@ -11,12 +11,7 @@ int main ()
   do
 
     {
-
-      if (token[joueur] == 0)
-	token[joueur] = "o"
-      else (token[joueur] == 1)
-        token[joueur] = "x"
-	   
+	  token[joueur];
     
     // fin de boucle de jeu: inversion joueur:
     joueur = !joueur;
