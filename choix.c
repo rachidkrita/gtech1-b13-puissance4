@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-<<<<<<< HEAD
 char token[] = "ox";
 int joueur = 0; // Joueur 1 = 0, Joueur 2 =1
 
