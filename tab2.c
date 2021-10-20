@@ -25,19 +25,20 @@ void choose(){
   printf("Veuillez choisir un chiffre correspondant à une colonne \n");
   printf("\n");
   scanf("%d",  &choice);
+  choice--;
+  printf("\n");
   printf("+ - - - - - - - + \n");
   for (l=0; l<NBL; l++){
     printf("|");
 
     for (c=0; c<NBC; c++){
-      game[6][choice]='x';
-      printf (" %c", game[NBL][NBC]);
+      game[l][c] = '.';
+      game[5][choice] = 'x';
+      printf (" %c", game[l][c]);
     }
     printf(" |\n");
   }
   printf("+ 1-2-3-4-5-6-7 + \n");
-  game[6][choice]='x';
-  printf (" %c", game[NBL][NBC]);
 }    
 
 				     
