@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #define NBL 6
 #define NBC 7
 
@@ -25,10 +26,16 @@ int init(void){
 }
 
 int Game(void) {
-  while OnOff != 1 {
+  int Victory = 0;
+  int OnOff = 0;
+  int AccountRound = 1;
+  while (OnOff != 1) {
+      OnOff == 0;
+      printf("Bienvenue au jeu du Puissance 4 \n\n");
       
-      while Victory != 1 || AccountRound < 42 {
-      
-      choice();
+      while (Victory != 1 || AccountRound < 42) {
+	  Victory == 1;
+	  OnOff == 1;
 	}
     }
+}
