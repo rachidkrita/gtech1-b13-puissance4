@@ -3,9 +3,11 @@
 #define NBL 6
 #define NBC 7
 
+char token[] = "ox";
+int joueur = 0; // Joueur 1 = 0, Joueur 2 =1 
 int c, l;
 
-int main(void){
+int main(void) { //Initialisation du tableau de jeu
   char game[NBL][NBC];
   game[NBL][NBC] = '.';
   printf("\n");
@@ -30,12 +32,13 @@ int Game(void) {
   int OnOff = 0;
   int AccountRound = 1;
   while (OnOff != 1) {
-      OnOff == 0;
-      printf("Bienvenue au jeu du Puissance 4 \n\n");
-      
-      while (Victory != 1 || AccountRound < 42) {
-	  Victory == 1;
-	  OnOff == 1;
+    OnOff == 0;
+    token[joueur];
+    printf("Bienvenue au jeu du Puissance 4 \n\n");
+    while (Victory != 1 || AccountRound < 42) {
+      Victory == 1;
+      OnOff == 1;
+      joueur = !joueur;
 	}
     }
 }
