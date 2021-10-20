@@ -1,12 +1,14 @@
+//définition de plein de trucs
 #include <stdio.h>
 #define NBL 6
 #define NBC 7
-int c, l;
+int c,l;
+int choice;
+char game[NBL][NBC];
+char x;
 
-//def de la fonction affichant le tableau
+//def de la fonction initiant le tab
 void initTab(){
- char game[NBL][NBC];  
-  game[NBL][NBC] = '.';
   for (l=0; l<NBL; l++){
     printf("|");
 
@@ -17,30 +19,30 @@ void initTab(){
   }
 }
 
-
-//nouveau prototype de placement\Choix du placement du joueur
-#define t1 x
-#define t2 o
-char t1, t2;
-int choice;
+//fonction pour choisir
 void choose(){
-  char game[NBL][choice];
-  int NBl=6;
+  game[NBL][NBC] = '.';
   printf("Veuillez choisir un chiffre correspondant à une colonne \n");
-  scanf("%d", &choice);
-  if (choice != 0);{
-    NBl--;
-  }
-  game[NBl][choice] = x;
   printf("\n");
+  scanf("%d",  &choice);
   printf("+ - - - - - - - + \n");
-  printf(" %c",  game[NBL][NBC]);
-  printf("+ 1-2-3-4-5-6-7 + \n");
-}
+  for (l=0; l<NBL; l++){
+    printf("|");
 
+    for (c=0; c<NBC; c++){
+      game[6][choice]='x';
+      printf (" %c", game[NBL][NBC]);
+    }
+    printf(" |\n");
+  }
+  printf("+ 1-2-3-4-5-6-7 + \n");
+  game[6][choice]='x';
+  printf (" %c", game[NBL][NBC]);
+}    
+
+				     
 //fonction principale avec le tableau et le choix
 int main(void){
-  char game[NBL][NBC];
   game[NBL][NBC] = '.';
   printf("\n");
   printf("+ - - - - - - - + \n");
