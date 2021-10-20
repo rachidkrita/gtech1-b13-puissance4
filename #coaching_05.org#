@@ -1,0 +1,400 @@
+<head><meta charset="UTF-8"></head><pre>
+#+title: G.Tech 1A -- Projet#2 -- C sous Linux
+
+* Objectifs qui étaient à atteindre / Début de séance [0/0]
+
+ - ( [[file:coaching_04.org::*Objectifs%20pour%20le%20prochain%20coaching][Objectifs pour coaching#5]] )
+
+ - Aujourd'hui:
+
+   - Cours de C (encore!): *header* (.h), *allocation mémoire*, *pointeurs* (char *)
+
+   - *Je vais faire le point avec chaque binôme* sur votre avancement / vos points de blocage
+     (et donc être moins disponible sur ce temps là)
+
+   - Coder Puissance 4: *Mon aide en priorité à ceux qui*:
+     1. N'arrivent pas à affichier le jeu initialisé
+     2. N'ont pas de boucle de jeu (avec =scanf()=, swap joueur, etc.)
+     3. N'arrivent pas à faire à mettre à jour =tab[][]= avec un jeton (token)
+
+   - Possibilité de mini-cours/tutos en petits groupes:
+     - Ex: Calcul moyenne de nombres avec tableau 1D (pour se faire la main)
+
+ - +++ Pour ceux qui veulent aller plus loin: lire les slides "+++" de ce fichier (C-s +++)
+
+* Annonce importante
+
+ - La date de livraison pour Puissance 4 est reportée à <2021-10-28 jeu. 23:59>
+   (Oh yeah!!!  Ouf!!  Hourraaaaa!!!!)
+
+ - On se concentre sur Puissance 4 jusqu'au bout!
+   Afin de *maîtriser les éléments du Langage C* qui y sont utilisés
+
+ - *Un binôme ne commencera pas le jeu Pong si Puissance 4 n'est pas terminé*
+
+ - Pong est donc optionnel et sera transformé en points BONUS.
+
+ - Ceux qui auront *terminé Puissance 4* pourront attaquer Pong
+   - Avec le Wikibook (CdC) (incomplet!)
+   - La doc officielle (incomplète!)
+   - Mon aide et des slides dédiées
+   - Attention il sera difficile:
+     - de coder l'affichage du score dans Pong (et oui!)
+     - de terminer avant <2021-10-28 jeu. 23:59>
+
+* Langage C
+** Préprocesseur et compilation
+   
+ 1. Préprocesseur: *Exécute des commandes qui modifient le code source qui sera compilé*
+    (Le code du préprocesseur n'est pas du C!!)
+
+    puis4.c -> *préprocesseur* -> puis4.c modifié (en mémoire) -> *compilateur* -> exécutable
+
+    Exemple: Ceci sera modifié:
+    #+BEGIN_SRC c
+      #define NBL 6
+      #define NBC 7
+      char tab[NBL][NBC];
+    #+END_SRC
+
+    Pour devenir cela après le "préprocessing":
+    #+BEGIN_SRC c
+      char tab[6][7];
+    #+END_SRC
+
+ 2. Compilateur: traduit code source en code machine
+
+ 3. =gcc= FAIT LES DEUX!! (et on l'appelle "un compilateur" tout court pas abus de langage)
+
+** Juste en passant
+
+ *Ne confondez* pas *déclaration* : =int a[3];= // déclare un tableau de 3 entiers
+
+   avec *affectation* =a[2] = 5;=               // affecte 5 à l'élément a[2]
+
+   avec *accès* =int b = a[2];=                 // accède à la valeur a[2] et l'affecte (à b)
+
+Un exemple qui m'a semblé perturber certains d'entre vous:
+
+#+BEGIN_SRC c
+  #define NBL 6
+  #define NBC 7
+  char tab[NBL][NBC]; // <- DÉCLARATION (équivalente à =char tab[6][7];=)
+  // ...
+
+  for(int l=0;l<NBL;l++) {
+    for(int c=0;c<NBC;c++) {
+      tab[l][c] = ".";        // <- AFFECTATION
+    }
+  }
+#+END_SRC
+
+** Fichiers "header" (.h)
+
+ - Déjà vu pour les librairies du système:
+
+   #include <stdio.h> <- instruction pour le préprocesseur! (Ce n'est même pas du C!!)
+
+ - Créer son propre fichier header ".h":
+   Exemple: =puis4.h=
+
+   #define NBL 6         <- Commande pour le préprocesseur
+   void tab_init(void);  <- Déclaration de fonction
+
+ - À inclure dans votre de code ".c":
+
+   #include "puis4.h"   <- *entre "" et pas entre <>*
+
+ - *Permet d'utiliser vos fonctions, #define, etc. dans plusieurs .c*
+
+ - Bonne pratiques:
+   - Paires de fichiers ".c" et ".h" avec le même nom de base (ex: =puis4.h= et =puis4.c=)
+   - ".h": Pas de code dans un .h, *seulement des déclarations*.
+   - ".c": Pas de déclarations, *seulement du code*.
+** Créer et utiliser ses propres "header" (.h)
+
+ - Pour le moment, vous compilez avec:   =gcc puis4.c -o puis4=
+
+ - Avec plusieurs fichiers ".c" et ".h", on peut organiser son code:
+
+   | Fichier  | Description              | Contenu principal      | Nos "Includes"      |
+   |----------+--------------------------+------------------------+---------------------|
+   | glob.h   | Décl. variables globales | #define NBL et NBC     |                     |
+   |          |                          | char tab[][];          |                     |
+   |----------+--------------------------+------------------------+---------------------|
+   | winner.h | Décl. fonct. de winner() | int winner(void);      |                     |
+   |----------+--------------------------+------------------------+---------------------|
+   | winner.c | Code pour test vainqueur | int winner(void) {...} | #include "glob.h"   |
+   |          |                          |                        | #include "winner.h" |
+   |----------+--------------------------+------------------------+---------------------|
+   | puis4.c  | Code principal du jeu    | void main(void) {...}  | #include "glob.h"   |
+   |          |                          |                        | #include "winner.h" |
+   |----------+--------------------------+------------------------+---------------------|
+
+   On compilation *tous les fichiers ".c"*:   =gcc puis4.c winner.c -o puis4=
+   (Ceci est une exemple, vous n'êtes pas obligé de faire de même!)
+** Pointeurs et allocation mémoire
+*** Définitions, vocabulaire, déclaration
+
+ - Pointeur = variable qui contient l'adresse d'une variable:
+
+     int a, *pa;
+
+   Dans la déclaration =int a, *pa;= :
+    - =a= et =*pa= sont bien de *type int* comme l'indique =int=
+    - =pa= est de type "adresse d'un entier" = pointeur sur variable de type =int=
+
+   Utilisation:
+
+     pa = &a;        -> pa =  &a = adresse de a
+     int b = *pa;    ->  b = *pa = valeur de a
+     int c = *&a;    ->  c = a
+
+ - Vocabulaire:
+
+   - & est l'opérateur d'*adresse*, il s'utilise pour *référencer*
+
+   - * est l'opérateur d'*indirection*, il s'utilise pour *déréférencer*
+
+*** Exercice pointeurs (mise en place)
+
+   Téléchargez le fichier =swap.c=:
+
+   =cd ~/proj_c/learn/=
+   =wget http://form.altihydrolab.fr/2021_gt1_c/swap.c=
+
+   Si vous n'avez pas =wget= dans votre Debian WSL:
+   =sudo apt update=
+   =sudo apt install wget=
+
+   .../...
+
+*** Exercice pointeurs (code)
+
+   #+BEGIN_SRC c
+     void swap1(int a, int b) {
+       int tmp = a;
+       a = b;
+       b = tmp;
+     }
+     void swap2(int *a, int *b) {
+       int tmp = *a;
+       *a = *b;
+       *b = tmp;
+     }
+     void main(void) {
+       int a=1, b=2;
+       printf("Début: a = ...\n", ...); // Complétez pour afficher les valeurs des entiers a et b.
+       swap1(a, b);
+       printf("Swap1: a = ...\n", ...); // Complétez pour afficher les valeurs des entiers a et b.
+       swap2(&a, &b);
+       printf("Swap2: a = ...\n", ...); // Complétez pour afficher les valeurs des entiers a et b.
+     }
+   #+END_SRC
+
+*** Allocation dynamique de mémoire
+
+ - Allocation avec =malloc()=:
+   Ex: On veut créer un tableau de N entiers:
+
+   #+BEGIN_SRC c
+     int *tab; // Ceci est un simple pointeur vers *un entier*, mais...
+     tab = (int*)malloc(N * sizeof(int)); // (On a déjà vu sizeof())
+   #+END_SRC
+
+ - Explications:
+   - =*tab= est de type =int=
+   - =tab= est de type pointeur sur =int=
+   - =tab[0]= est le premier élément du tableau =tab[]=
+
+   - =malloc(N * sizeof(int))=:
+     1. alloue une quantité de mémoire égale à =N*sizeof(int)=
+     2. retourne un pointeur sur =void=, de type générique =void*=
+
+   - =(int*)malloc(...)= converti le type =void*= en =int*= puisque nous allons
+     utiliser cette mémoire comme une série de nombres entiers
+*** Utilisation d'un pointeur sur tableau
+
+   #+BEGIN_SRC c
+     int *tab; // Ceci est un simple pointeur vers *un entier*, mais...
+     tab = (int*)malloc(N * sizeof(int)); // (On a déjà vu sizeof())
+   #+END_SRC
+
+ - Par définition:
+   - =*tab= est de type =int=
+   - =tab= est de type pointeur sur =int=
+   - =tab[0]= est le premier élément du tableau =tab[]=
+
+ - Détail: =tab= est l'*adresse de début d'un tableau d'entiers*
+
+   - Ceci est VRAI: =tab[0] == *tab=
+
+   - =tab[1]= est le second élément du tableau, etc.
+
+   - En fait: =tab[n] == *(tab + n)=, ex: =tab[0] == *(tab + 0)=
+
+   - Ne pas dépasser les limites du tableau!!
+     Plage des indices utilisables =n= dans [0 ; N-1]
+
+*** Affectation & accès scalaire et tableau
+
+   - Accès et Affectation sur scalaire via pointeur:
+     
+     #+BEGIN_SRC c
+       int a, *pa;
+       pa = &a;        -> Copie adresse de a dans pa
+       int b = *pa;    -> Copie valeur de *pa = a dans b
+       *pa = 2*b;      -> Copie le résultat de l'opération 2*b dans a
+     #+END_SRC
+
+   - Accès et Affectation sur tableau via pointeur:
+
+     #+BEGIN_SRC c
+       int tab[5] = {1, 7, 3, 4, 9};  -> Création tableau 1D de 5 entiers
+       int a, *ptab;    -> *ptab est de type int et ptab[n] également!
+       ptab = tab;      -> Copie adresse de tab (=tab[0]) dans ptab
+       ptab[3] = 2;     -> Copie de 2 dans ptab[3]
+       a = ptab[1];     -> Copie ptab[1] dans =a=
+     #+END_SRC
+
+     *ptab = 12;      -> Fait quoi selon vous?
+
+*** Arithmétique spéciale des pointeurs
+
+  #+BEGIN_SRC c
+    int *tab = (int*)malloc(5*sizeof(int))
+    int *ptab = tab;
+  #+END_SRC
+
+  =tab= en mémoire -> | int0 | int1 | int2 | int3 | int4 |  ( !! /terra incognita/ !! ) |
+
+ - Arithmétique particulière pour les pointeurs:
+
+   ptab++;   -> Ceci déplace =pa= de "int0" vers "int1", et ainsi de suite...
+   ptab--;   -> Ceci déplace =pa= dans l'autre sens
+
+   -> *Incrémenter un pointeur = pointer sur l'élément suivant en mémoire*
+   -> Cet incrémentation est *adapté au type pointé en mémoire et donc à sa taille* (sizeof)
+
+ - Aditionner "pointeur + entier", ça donne quoi?
+
+   *(pa + 5);   -> On pointe 5 cases plus loin dans la mémoire et on récupère sa valeur
+
+ - *Attention*: On modifie pas =tab= sinon on sait plus où commence notre tableau!
+
+*** Libération de mémoire allouée
+
+La mémoire allouée doit être libérée explicitement une fois qu'elle n'est plus utile:
+
+   free(tab2);
+
+
+Un code propre fait donc trois choses:
+
+ 1. Déclaration d'un pointeur à NULL:
+
+   int *tab2 = NULL;
+
+ 2. Allocation mémoire:
+
+   tab2 = (int*)malloc(5*sizeof(int));
+
+ 3. Libération mémoire:
+
+   if(tab2 != NULL) free(tab2);
+
+*** This is the End, my only friend
+
+ - Déclaration des pointeurs, comment ne pas s'y perdre:
+
+   - =char **tab;= est un pointeur sur un tableau 2D de variables de type =char=
+
+   - *En terme de raisonnement*, tout cela est équivalent:
+
+     - (char) **tab; // =**tab= est de type =char=
+     - (char*) *tab; // =*tab= est de type =char*=, c'est un pointeur sur =char=
+     - (char**) tab; // =tab= est de type =char**=, c'est un pointeur de pointeur sur =char=
+
+*** +++ Tableau fixe vs tableau dynamique!
+    
+ - Cas des tableaux 1D:
+
+   int tab1[5];                             -> =tab1= de type (int*) mais ce n'est pas explicite!
+   int *tab2 = (int*)malloc(5*sizeof(int)); -> =tab2= de type (int*) et c'est explicite!
+
+   -> =tab1= et =tab2= sont des pointeurs sur entier
+   -> Ces adresses sont égales: =tab1 == &tab1[0]=
+                                =tab2 == &tab2[0]=
+
+ - Cas des tableaux 2D (ou plus) *est plus complexe*:
+
+   char tabA[6][7]; -> =tabA= de type =char (*)[7]=, pointeur sur *ensemble(s) de 7 chars*
+
+     (Note: A priori =tabA++= devrait sauter de tabA[0][0] à tab[1][0])
+
+   char **tabB;     -> =tabB= de type =char**=, c'est un pointeur sur pointeur vers =char=
+
+ - Pourtant les mémoires derrière =tabA= et =tabB= sont *structurées de la même manière*!
+
+*** +++ Affectation & accès tableau 2D
+    
+ - Affectation de valeur via un pointeur dans un tableau 2D:
+
+   #+BEGIN_SRC c
+     void init(char **ptab) {
+       for(int l=0; l<NBL; l++) {
+         for(int c=0; c<NBC; c++) {
+           ptab[l][c] = '.';       -> S'utilise ici comme si défini comme =char ptab[NBL][NBC];=
+           }
+         }
+       }
+   #+END_SRC
+
+   -> Remarque: Encore faudrait-il savoir comment créer ce tableau 2D de type =(char**)=!!!
+      (prochaine slide!)
+
+ - Dans Puissance 4, au choix:
+
+   - Continuer avec =char tab[][]=
+
+   - Ou bien passer à de l'allocation dynamique (avec =malloc()=).
+
+*** +++ Allocation dynamique tableau 2D (par exemple pour Puissance 4)
+#+BEGIN_SRC c
+
+  // Fonction d'allocation mémoire:
+  char **tab_malloc() {
+    // Allocation tableau de "pointeurs sur pointeurs" (1D):
+    char **tab = (char**)malloc(NBL * sizeof(char*)); // "Les lignes"
+    // Pour chaque pointeur de premier niveau, on alloue un tableau de pointeurs (1D):
+    for(int l=0; l<NBL; l++) // Pour chaque "ligne"
+      tab[l] = (char*)malloc(NBC * sizeof(char));     // Les colonnes sont "attachées" à =tab[l]=
+    // On retourne le ponteur =tab= pour l'utiliser ailleurs
+    return tab;
+  }
+
+  // Plus loin: On utilise la fonction d'allocation mémoire:
+  char **tab = NULL;
+  tab = tab_malloc();
+
+  // Plus loin: On libère la mémoire quand on n'en a plus besoin:
+  if(tab != NULL)
+    free(tab);   <- *Essentiel: on libère la mémoire soi-même!*
+
+#+END_SRC
+
+* Objectifs pour le prochain coaching                        :TODOélèves:
+
+*Avant de partir: Désinfectez vos postes (clavier, souris, table, accoudoirs)*
+
+ - Puissance 4:
+
+   - Passez votre code du tableau fixe =char tab[][]= à un tableau alloué =char **tab=
+
+   - Codez le test du vainqueur et testez-le!
+
+ - CdC: *Pour jeudi 23:59* - Livrer votre jeu Puissance 4 via Github
+
+   - *Ne vous trompez pas d'URL* (Le coach va utiliser celles du fichier des URL)
+
+   - Mettre à jour votre URL au plus tôt si ce n'est pas fait!
