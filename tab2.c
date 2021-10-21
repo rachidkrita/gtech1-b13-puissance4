@@ -6,10 +6,24 @@ int c,l;
 int choice;
 char game[NBL][NBC];
 char x;
-char token[] = "ox";
-int joueur = 0; // Joueur 1 = 0, Joueur 2 =1
 int AccountRound = 1;
 int next;
+char token[] = "ox";
+int joueur = 0; // Joueur 1 = 0, Joueur 2 =1
+
+//de belles couleurs :)))))))
+void red(){
+  printf("\033[1;31m");
+}
+void yellow(){
+  printf("\033[1;33m");
+}
+void white(){
+  printf("\033[0;37m");
+}
+void reset(){
+  printf("\033[0m");
+}
 
 //fonction initialisant le tab
 void InitTab(){
@@ -34,42 +48,33 @@ void PrintTab(){
   printf("+ 1-2-3-4-5-6-7 + \n");
 }
 
-//boucle de jeu
-void loop(){
-  int Victory = 0;
-  int OnOff = 0;
-  int AccountRound = 1;
-    while (Victory !=1 || AccountRound < 42) {
-      Victory++;
-      OnOff == 1;
-      joueur = !joueur;
-  }
-}
-
-//fonction pour poser sur les tokens
-void gravity(){
-  if game[5-next][choice]="o,x"
-	   l--;
-
-
 //fonction pour choisir
 void choose(){
-  choice--;
   printf("\n");
   while (AccountRound < 42){
     PrintTab();
-    printf("Veuillez choisir un chiffre correspondant à une colonne \n\n");
-    scanf("%d",  &choice);
+    printf("\nVotre chiffre: ");
+    scanf("%d", &choice);
     choice--;
+    printf("%d", choice);
+    if (choice < 1, choice > 7){
+      red();
+      printf("\nVotre chiffre ne corresponds pas à une colonne \n");
+      reset();
+      choose();
+    }
     game[5-next][choice]= token[joueur];
     joueur = !joueur;
     AccountRound++;
-      }
+  }
   printf(" |\n");
 }
-    
+
 //fonction principale avec le tableau et le choix
 int main(void){
   InitTab();
+  yellow();
+  printf("\nVeuillez choisir un chiffre correspondant à une colonne \n");
+  reset();
   choose();
 }
