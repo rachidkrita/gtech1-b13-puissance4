@@ -8,7 +8,7 @@ char x;
 char token[] = "ox";
 int joueur = 0; // Joueur 1 = 0, Joueur 2 =1
 int c, l;
-int PL = 5;
+int PL;
 
 
 //def de la fonction initiant le tab
@@ -16,7 +16,6 @@ void initTab() {
   for (l=0; l<NBL; l++) {
     printf("|");
     for (c=0; c<NBC; c++) {
-      game[l][c] = '.';
       printf (" %c", game[NBL][NBC]);
     }
     printf(" |\n");
@@ -26,6 +25,39 @@ void initTab() {
 int Verif() {
   int exit = 0;
   int PL = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   while (exit != 1) {
     if (game[PL][choice] = '.') {
       PL ++;
@@ -33,7 +65,6 @@ int Verif() {
     }
     else {
       if (PL == 0) {
-	PL = 10;
 	exit ++;
 	return 10;
       }
@@ -59,7 +90,7 @@ void main() {
     choice--;
     PL = Verif();
     if (PL == 10) {
-      printf("Vous ne pouvez pas poser de jetons ici !\n");
+      printf(" %c", "Vous ne pouvez pas poser de jetons ici !\n");
     }
     else {
       printf("\n");
