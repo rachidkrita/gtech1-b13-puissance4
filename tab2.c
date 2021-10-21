@@ -16,7 +16,6 @@ void InitTab(){
   for (l=0; l<NBL; l++){
       for (c=0; c<NBC; c++){
 	game[l][c]='.';
-	printf(" %c", game[l][c]);
     }
   }
 }
@@ -46,6 +45,12 @@ void loop(){
       joueur = !joueur;
   }
 }
+
+//fonction pour poser sur les tokens
+void gravity(){
+  if game[5-next][choice]="o,x"
+	   l--;
+
 
 //fonction pour choisir
 void choose(){
