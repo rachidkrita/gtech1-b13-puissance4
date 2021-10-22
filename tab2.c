@@ -57,7 +57,7 @@ void choose(){
     scanf("%d", &choice);
     choice--;
     printf("%d", choice);
-    if (choice < 1, choice > 7){
+    if (choice <= -1, choice >= 7){
       red();
       printf("\nVotre chiffre ne corresponds pas à une colonne \n");
       reset();
