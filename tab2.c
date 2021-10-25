@@ -51,10 +51,9 @@ void PrintTab() {
 int Verif() { //Fonction pour verifier les places disponibles dans la colonne choisie
   int exit = 0;
   next = 0;
-  while (exit != 1 && next < 5) {
+  while (next < 5) {
     if (game[next][choice] == '.') {
       next ++;
-      exit = 0;
     }
     if (game[next][choice] == 'x' || game[next][choice] == 'o') {
 	if (next == 0) {
