@@ -50,6 +50,7 @@ void PrintTab(){
 
 //fonction pour choisir
 void choose(){
+  int scanerror;
   printf("\n");
   while (AccountRound < 42){
     PrintTab();
