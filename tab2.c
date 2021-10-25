@@ -35,6 +35,11 @@ void InitTab(){
   }
 }
 
+//empty le journal d'entrée
+void flushstdin() {
+  int c;
+  while((c = getchar()) != '\n' && c != EOF);}
+
 //def de la fonction affichant le tab
 void PrintTab(){
   printf("\n");
@@ -76,19 +81,28 @@ int Verif() {
   }
 }
 
-
 //fonction pour choisir
-void choose(){
+int choose(){
+  int scanerror;
   printf("\n");
   while (AccountRound < 42) {
     int good = 0;
     PrintTab();
-    printf("\nVotre chiffre:\n ");
-    scanf("%d", &choice);
+    yellow();
+    printf("\nVotre chiffre: ");
+    reset();
+    scanerror=scanf("%d", &choice);
     choice--;
+    if (scanerror==0){
+      flushstdin();
+      red();
+      printf("\nCe n'est pas un chiffre :(\n");
+      reset();
+      continue;
+    }
     if (choice <= -1 || choice >= 7){
       red();
-      printf("\nVotre chiffre ne corresponds pas à une colonne \n");
+      printf("\nVeuillez mettre un chiffre entre 1 et 7");
       reset();
       choose();
     }
