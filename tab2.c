@@ -11,6 +11,17 @@ int next;
 char token[] = "ox";
 int player = 0; // Joueur 1 = 0, Joueur 2 =1
 
+int logo() {
+  printf(R"EOF(
+	       _________      .__                                               _____  
+	       \______  \__ __|__|______ ____________    ____   ____  ____     /  |  | 
+	       |     ___/  |  \  |/  ___/   ___/\__  \  /    \_/ ___\/ __ \   /   |  |_
+	       |    |   |  |  /  |\___ \ \___ \  / __ \|   |  \  \__\  ___/  /    ^   /
+	       |____|   |____/|__/____  >____  >/____  /___|  /\___  >___  > \____   | 
+				      \/     \/      \/     \/     \/    \/       |__| 
+	 )EOF");
+}                
+
 //de belles couleurs :)))))))
 void red() {
   printf("\033[1;31m");
@@ -93,6 +104,7 @@ void choose() {
 
 //fonction main
 int main(void) {
+  logo();
   InitTab();
   yellow();
   printf("\nVeuillez choisir un chiffre correspondant à une colonne \n");
