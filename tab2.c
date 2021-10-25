@@ -54,6 +54,7 @@ void PrintTab(){
   printf("+ 1-2-3-4-5-6-7 + \n");
 }
 
+//Fonction permettant d'empiler les jetons 
 int Verif() {
   int exit = 0;
   next = 0;
