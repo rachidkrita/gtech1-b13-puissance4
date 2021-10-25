@@ -9,7 +9,8 @@ char x;
 int AccountRound = 1;
 int next;
 char token[] = "ox";
-int joueur = 0; // Joueur 1 = 0, Joueur 2 =1
+int player = 0; // Joueur 1 = 0, Joueur 2 =1
+int good = 0;
 
 //de belles couleurs :)))))))
 void red(){
@@ -48,27 +49,56 @@ void PrintTab(){
   printf("+ 1-2-3-4-5-6-7 + \n");
 }
 
+int Verif() {
+  int exit = 0;
+  next = 0;
+  while (exit != 1 && next < 5) {
+    if (game[next][choice] == '.') {
+      next ++;
+      exit = 0;
+    }
+    if (game[next][choice] == 'x' || game[next][choice] == 'o') {
+	if (next == 0) {
+	  red();
+	  printf("\nCette colonne est pleine...\n");
+	  reset();
+	  exit ++;
+	  player=!player;
+	  AccountRound--;
+	  return 0;
+	}
+	else {
+	  next --;
+	  exit ++;
+	  return 1;
+	}
+    }
+  }
+}
+
+
 //fonction pour choisir
 void choose(){
-  int scanerror;
   printf("\n");
-  while (AccountRound < 42){
+  while (AccountRound < 42) {
+    int good = 0;
     PrintTab();
-    printf("\nVotre chiffre: ");
+    printf("\nVotre chiffre:\n ");
     scanf("%d", &choice);
     choice--;
-    printf("%d", choice);
-    if (choice <= -1, choice >= 7){
+    if (choice <= -1 || choice >= 7){
       red();
       printf("\nVotre chiffre ne corresponds pas à une colonne \n");
       reset();
       choose();
     }
-    game[5-next][choice]= token[joueur];
-    joueur = !joueur;
-    AccountRound++;
+    good = Verif();
+    if (good = 1) {
+      game[next][choice]= token[player];
+      player = !player;
+      AccountRound++;
+    }
   }
-  printf(" |\n");
 }
 
 //fonction principale avec le tableau et le choix
