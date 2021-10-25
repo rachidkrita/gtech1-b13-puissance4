@@ -9,7 +9,7 @@ char x;
 int AccountRound = 1;
 int next;
 char token[] = "ox";
-int joueur = 0; // Joueur 1 = 0, Joueur 2 =1
+int player = 0; // Joueur 1 = 0, Joueur 2 =1
 int good = 0;
 
 //de belles couleurs :)))))))
@@ -52,19 +52,22 @@ void PrintTab(){
 int Verif() {
   int exit = 0;
   next = 0;
-  while (exit == 0 && next < 5) {
+  while (exit != 1 && next < 5) {
     if (game[next][choice] == '.') {
       next ++;
       exit = 0;
     }
-    else if (next = 0) {
-	printf("Cette colonne est pleine...");
-	exit ++;
-	good = 0;
-    }
-    else {
-	next --;
-	exit ++;
+    if (game[next][choice] == 'x' || game[next][choice] == 'o') {
+	if (next == 0) {
+	  printf("Cette colonne est pleine...");
+	  exit ++;
+	  return 0;
+	}
+	else {
+	  next --;
+	  exit ++;
+	  return 1;
+	}
     }
   }
 }
@@ -85,14 +88,14 @@ void choose(){
       reset();
       choose();
     }
-    Verif();
-    game[next][choice]= token[joueur];
-    joueur = !joueur;
-    AccountRound++;
+    good = Verif();
+    if (good = 1) {
+      game[next][choice]= token[player];
+      player = !player;
+      AccountRound++;
+    }
   }
-  printf(" |\n");
 }
-
 
 //fonction principale avec le tableau et le choix
 int main(void){
