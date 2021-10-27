@@ -13,7 +13,7 @@ int player = 0; // Joueur 1 = 0, Joueur 2 =1
 int good = 0;
 
 //de belles couleurs :)))))))
-void red(){
+int red(){
   printf("\033[1;31m");
 }
 void yellow(){
@@ -25,7 +25,7 @@ void white(){
 void reset(){
   printf("\033[0m");
 }
-void blue(){
+int blue(){
   printf("\033[0;34m");
 }
 
@@ -59,7 +59,6 @@ void flushstdin() {
 
 //def de la fonction affichant le tab
 void PrintTab(){
-  white();
   printf("\n");
   printf("+ - - - - - - - + \n");
   for (l=0; l<NBL; l++){
@@ -71,8 +70,7 @@ void PrintTab(){
   }
   printf("+ 1-2-3-4-5-6-7 + \n");
 }
-
-
+	 
 //Fonction permettant d'empiler les jetons
 int Verif(){
   int exit = 0;
@@ -126,16 +124,11 @@ int choose(){
       choose();
     }
     Verif();
-    if (player==1){
-      yellow();}
-    else{
-      red();}
-    game[next][choice]= token[player];
-    player = !player;
+    game[next][choice]=token[player];
+    player=!player;
     AccountRound++;
   }
 }
-
 
 //fonction principale avec le tableau et le choix
 int main(void){
