@@ -59,6 +59,7 @@ void flushstdin() {
 
 //def de la fonction affichant le tab
 void PrintTab(){
+  white();
   printf("\n");
   printf("+ - - - - - - - + \n");
   for (l=0; l<NBL; l++){
@@ -96,20 +97,6 @@ int Verif(){
 	exit ++;
 	return 1;
       }
-	if (next == 0) {
-	  red();
-	  printf("\nCette colonne est pleine...\n");
-	  reset();
-	  exit ++;
-	  player=!player;
-	  AccountRound--;
-	  return 0;
-	}
-	else {
-	  next --;
-	  exit ++;
-	  return 1;
-	}
     }
   }
 }
@@ -119,7 +106,6 @@ int choose(){
   int scanerror;
   printf("\n");
   while (AccountRound < 42) {
-    int good = 0;
     PrintTab();
     yellow();
     printf("\nVotre chiffre: ");
@@ -139,14 +125,17 @@ int choose(){
       reset();
       choose();
     }
-    good = Verif();
-    if (good = 1) {
-      game[next][choice]= token[player];
-      player = !player;
-      AccountRound++;
-    }
+    Verif();
+    if (player==1){
+      yellow();}
+    else{
+      red();}
+    game[next][choice]= token[player];
+    player = !player;
+    AccountRound++;
   }
 }
+
 
 //fonction principale avec le tableau et le choix
 int main(void){
@@ -157,3 +146,4 @@ int main(void){
   reset();
   choose();
 }
+ 
