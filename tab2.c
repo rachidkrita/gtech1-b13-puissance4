@@ -1,4 +1,5 @@
-//définition de plein de trucs
+//définition de tout plein de trucs
+#include <stdlib.h>
 #include <stdio.h>
 #define NBL 6
 #define NBC 7
@@ -13,7 +14,7 @@ int player = 0; // Joueur 1 = 0, Joueur 2 =1
 int good = 0;
 
 //de belles couleurs :)))))))
-int red(){
+void red(){
   printf("\033[1;31m");
 }
 void yellow(){
@@ -25,7 +26,7 @@ void white(){
 void reset(){
   printf("\033[0m");
 }
-int blue(){
+void blue(){
   printf("\033[0;34m");
 }
 
@@ -33,15 +34,24 @@ int blue(){
 int logo() {
   blue();
   printf(R"EOF(
-            	         _________      .__                                               _____
-		         \______  \__ __|__|______ ____________    ____   ____  ____     /  |  |
-		         |     ___/  |  \  |/  ___/   ___/\__  \  /    \_/ ___\/ __ \   /   |  |_
-          	         |    |   |  |  /  |\___ \ \___ \  / __ \|   |  \  \__\  ___/  /    ^   /
-	                 |____|   |____/|__/____  >____  >/____  /___|  /\___  >___  > \____   |
-		                                \/     \/      \/     \/     \/    \/       |__|
+	               _________      .__                                               _____
+		       \______  \__ __|__|______ ____________    ____   ____  ____     /  |  |
+		       |     ___/  |  \  |/  ___/   ___/\__  \  /    \_/ ___\/ __ \   /   |  |_
+		       |    |   |  |  /  |\___ \ \___ \  / __ \|   |  \  \__\  ___/  /    ^   /
+		       |____|   |____/|__/____  >____  >/____  /___|  /\___  >___  > \____   |
+		                              \/     \/      \/     \/     \/    \/       |__|
 	       )EOF");
   reset();
-}  
+}
+
+//fonction affichant le début du menu
+void menu(){
+  yellow();
+  printf("\n1.Règles\n");
+  printf("2.Puissance 4\n");
+  printf("3.Quitter\n");
+  reset();
+}
 
 //fonction initialisant le tab
 void InitTab(){
@@ -70,9 +80,9 @@ void PrintTab(){
   }
   printf("+ 1-2-3-4-5-6-7 + \n");
 }
-	 
+
 //Fonction permettant d'empiler les jetons
-int Verif(){
+int Verif() {
   int exit = 0;
   next = 0;
   while (exit != 1 && next < 5) {
@@ -82,18 +92,18 @@ int Verif(){
     }
     if (game[next][choice] == 'x' || game[next][choice] == 'o') {
       if (next == 0) {
-	red();
-	printf("\nCette colonne est pleine...\n");
-	reset();
-	exit ++;
-	player=!player;
-	AccountRound--;
-	return 0;
+        red();
+        printf("\nCette colonne est pleine...\n");
+        reset();
+        exit ++;
+        player=!player;
+        AccountRound--;
+        return 0;
       }
       else {
-	next --;
-	exit ++;
-	return 1;
+        next --;
+        exit ++;
+        return 1;
       }
     }
   }
@@ -104,6 +114,7 @@ int choose(){
   int scanerror;
   printf("\n");
   while (AccountRound < 42) {
+    int good = 0;
     PrintTab();
     yellow();
     printf("\nVotre chiffre: ");
@@ -123,20 +134,48 @@ int choose(){
       reset();
       choose();
     }
-    Verif();
-    game[next][choice]=token[player];
-    player=!player;
-    AccountRound++;
+    good = Verif();
+    if (good = 1) {
+      game[next][choice]= token[player];
+      player = !player;
+      AccountRound++;
+    }
   }
 }
 
-//fonction principale avec le tableau et le choix
-int main(void){
+//Fonction affichant un menu pour consulter les règles
+int menus(){
+  int option;
+  menu();
+  printf ("\nVotre choix ? ");
+  scanf("%d", &option);
+  switch(option){
+  case 1 :
+    menu();
+  case 2 :
+    break;
+  case 3 :
+    printf("\n:(\n\n");
+    exit (-1);
+    break;
+  default :
+    red();
+    printf ("\nChoissisez un choix valide.\n");
+    reset();
+    flushstdin();
+    menus();
+  } 
+}
+
+//fonction main éxécutant toute les autres fonctions
+int main(){
   logo();
+  menus();
   InitTab();
   yellow();
   printf("\nVeuillez choisir un chiffre correspondant à une colonne \n");
   reset();
   choose();
 }
+
  
