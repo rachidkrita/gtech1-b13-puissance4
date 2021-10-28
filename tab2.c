@@ -11,7 +11,6 @@ int AccountRound = 1;
 int next;
 char token[] = "ox";
 int player = 0; // Joueur 1 = 0, Joueur 2 =1
-int good = 0;
 
 //de belles couleurs :)))))))
 void red(){
@@ -180,6 +179,7 @@ int main(){
   printf("\nVeuillez choisir un chiffre correspondant à une colonne \n");
   reset();
   choose();
+  PrintTab();
 }
 
  
