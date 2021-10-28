@@ -29,8 +29,8 @@ void reset(){
 //fonction initialisant le tab
 void InitTab(){
   for (l=0; l<NBL; l++){
-      for (c=0; c<NBC; c++){
-	game[l][c]='.';
+    for (c=0; c<NBC; c++){
+      game[l][c]='.';
     }
   }
 }
@@ -47,14 +47,14 @@ void PrintTab(){
   for (l=0; l<NBL; l++){
     printf("|");
     for (c=0; c<NBC; c++){
-  printf(" %c", game[l][c]);
+      printf(" %c", game[l][c]);
     }
-  printf(" |\n");
+    printf(" |\n");
   }
   printf("+ 1-2-3-4-5-6-7 + \n");
 }
 
-//Fonction permettant d'empiler les jetons 
+//Fonction permettant d'empiler les jetons
 int Verif() {
   int exit = 0;
   next = 0;
@@ -64,30 +64,25 @@ int Verif() {
       exit = 0;
     }
     if (game[next][choice] == 'x' || game[next][choice] == 'o') {
-	if (next == 0) {
-	  red();
-	  printf("\nCette colonne est pleine...\n");
-	  reset();
-	  exit ++;
-	  player=!player;
-	  AccountRound--;
-	  return 0;
-	}
-	else {
-	  next --;
-	  exit ++;
-	  return 1;
-	}
+      if (next == 0) {
+	red();
+	printf("\nCette colonne est pleine...\n");
+	reset();
+	exit ++;
+	player=!player;
+	AccountRound--;
+	return 0;
+      }
+      else {
+	next --;
+	exit ++;
+	return 1;
+      }
     }
   }
 }
 
 //fonction pour choisir
-
-void choose(){
-  int verifyerror;
-  printf("%d", verifyerror);
-
 int choose(){
   int scanerror;
   printf("\n");
@@ -99,7 +94,6 @@ int choose(){
     reset();
     scanerror=scanf("%d", &choice);
     choice--;
-    if (choice <= -1, choice >= 7){
     if (scanerror==0){
       flushstdin();
       red();
