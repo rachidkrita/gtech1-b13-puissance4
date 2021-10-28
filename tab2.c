@@ -13,7 +13,7 @@ int player = 0; // Joueur 1 = 0, Joueur 2 =1
 int good = 0;
 
 //de belles couleurs :)))))))
-void red(){
+int red(){
   printf("\033[1;31m");
 }
 void yellow(){
@@ -25,6 +25,23 @@ void white(){
 void reset(){
   printf("\033[0m");
 }
+int blue(){
+  printf("\033[0;34m");
+}
+
+//logo trop styléééééééééééé
+int logo() {
+  blue();
+  printf(R"EOF(
+            	         _________      .__                                               _____
+		         \______  \__ __|__|______ ____________    ____   ____  ____     /  |  |
+		         |     ___/  |  \  |/  ___/   ___/\__  \  /    \_/ ___\/ __ \   /   |  |_
+          	         |    |   |  |  /  |\___ \ \___ \  / __ \|   |  \  \__\  ___/  /    ^   /
+	                 |____|   |____/|__/____  >____  >/____  /___|  /\___  >___  > \____   |
+		                                \/     \/      \/     \/     \/    \/       |__|
+	       )EOF");
+  reset();
+}  
 
 //fonction initialisant le tab
 void InitTab(){
@@ -53,9 +70,9 @@ void PrintTab(){
   }
   printf("+ 1-2-3-4-5-6-7 + \n");
 }
-
+	 
 //Fonction permettant d'empiler les jetons
-int Verif() {
+int Verif(){
   int exit = 0;
   next = 0;
   while (exit != 1 && next < 5) {
@@ -87,7 +104,6 @@ int choose(){
   int scanerror;
   printf("\n");
   while (AccountRound < 42) {
-    int good = 0;
     PrintTab();
     yellow();
     printf("\nVotre chiffre: ");
@@ -107,20 +123,20 @@ int choose(){
       reset();
       choose();
     }
-    good = Verif();
-    if (good = 1) {
-      game[next][choice]= token[player];
-      player = !player;
-      AccountRound++;
-    }
+    Verif();
+    game[next][choice]=token[player];
+    player=!player;
+    AccountRound++;
   }
 }
 
 //fonction principale avec le tableau et le choix
 int main(void){
+  logo();
   InitTab();
   yellow();
   printf("\nVeuillez choisir un chiffre correspondant à une colonne \n");
   reset();
   choose();
 }
+ 
