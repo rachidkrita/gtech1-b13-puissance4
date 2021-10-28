@@ -113,8 +113,7 @@ int Verif() {
 int choose(){
   int scanerror;
   printf("\n");
-  while (AccountRound < 42) {
-    int good = 0;
+  while (AccountRound < 43) {
     PrintTab();
     yellow();
     printf("\nVotre chiffre: ");
@@ -134,12 +133,10 @@ int choose(){
       reset();
       choose();
     }
-    good = Verif();
-    if (good = 1) {
-      game[next][choice]= token[player];
-      player = !player;
-      AccountRound++;
-    }
+    Verif();
+    game[next][choice]= token[player];
+    player = !player;
+    AccountRound++;
   }
 }
 
@@ -151,7 +148,14 @@ int menus(){
   scanf("%d", &option);
   switch(option){
   case 1 :
-    menu();
+    yellow();
+    printf("%s","\nPour gagner une partie de puissance 4,");
+    printf("%s"," il suffit d'être le premier à aligner 4 jetons de sa couleur horizontalement,");
+    printf("%s", " verticalement et diagonalement.\nSi lors d'une partie,");
+    printf("%s", " tous les jetons sont joués sans qu'il y est d'alignement de jetons,");
+    printf("%s", " la partie est déclaré nulle.\n");
+    reset();
+    menus();
   case 2 :
     break;
   case 3 :
